@@ -4,6 +4,14 @@ const users = require('./routes/api/users');
 const profile=require('./routes/api/profile');
 const posts=require('./routes/api/posts');
 const app = express();
+const passport = require('passport');
+const bodyParser = require('body-parser');
+
+
+//Body parser middleware
+//To serialize the HTML content to json object
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 //DB config
 const db = require('./keys').mongoURI;
@@ -14,8 +22,12 @@ mongoose
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.log(err));
 
-//Let's write our first route
-app.get('/',(req,res) => res.send('Hello world!!!'));
+//Passport middleware
+app.use(passport.initialize());
+
+//Passport config
+require('./config/passport')(passport);
+
 //Other routes
 app.use('/api/users', users);
 app.use('/api/profile', profile);
