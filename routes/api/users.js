@@ -7,6 +7,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../keys');
 const passport = require('passport');
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
 
 router.get('/test', (req,res) => res.json({msg: 'Users route worked!'}));
 
@@ -14,6 +16,14 @@ router.get('/test', (req,res) => res.json({msg: 'Users route worked!'}));
 // @desc   Register user
 // @access Public
 router.post('/register', (req,res) => {
+    //Function call to validation-register to perform validation (deconstruction -> gets return object as key value pair)
+    const {errors, isValid} = validateRegisterInput(req.body);
+
+    //Check isValid
+    if(!isValid){
+        return res.status(400).json(errors);
+    }
+
     User.findOne({email: req.body.email})
     .then(user => {
         if (user){
@@ -76,7 +86,7 @@ router.post('/login', (req,res) => {
                         if(err) throw err;
                         res.json({
                             success: true,
-                            token: 'Bearer token' + token
+                            token: 'Bearer ' + token
                         })
                     });
             }
@@ -91,9 +101,12 @@ router.post('/login', (req,res) => {
 // @desc   return current user
 // @access Private/Protected
 
-router.get('/current', passport.authenticate('jwt', {session: 
-    false}),(req,res) => {
-    res.json({message: 'success'});
+router.get('/current', passport.authenticate('jwt', {session: false}),(req,res) => {
+    res.json({
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email
+    });
 });
 
 module.exports = router;
