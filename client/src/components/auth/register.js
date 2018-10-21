@@ -12,8 +12,8 @@ class Register extends Component {
             password2: '',
             errors : {}
         }
-        this.onChange = this.onChange(this);
-        this.onSubmit = this.onSubmit(this);
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
     onChange(e){
         //[] means it is a derived value and not fixed
