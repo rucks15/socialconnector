@@ -9,8 +9,14 @@ import {Provider} from 'react-redux';
 import store from './store';
 
 import './App.css';
+import setAuthToken from './utils/setAuthToken';
+import { setCurrentUser } from './actions/authActions';
 
-
+if(localStorage.jwtToken){
+  setAuthToken(localStorage.jwtToken);
+  const decoded = jwt_decode(localStorage.jwtToken);
+  store.dispatch(setCurrentUser, )
+}
 
 class App extends Component {
   render() {
