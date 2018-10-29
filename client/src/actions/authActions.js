@@ -14,7 +14,7 @@ export const registeruser = (userData, history) => dispatch => {
                 payload: err.response.data
             })
         );
-        }
+    }
     //Login user - get user token
 export const loginUser = (userData) => dispatch => {
         axios
@@ -44,3 +44,4 @@ export const setCurrentUser = decoded => {
         payload : decoded
     }
 }
+

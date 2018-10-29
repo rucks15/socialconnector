@@ -30,14 +30,17 @@ onSubmit(e){
         
     };
 
-    this.props.loginUser(currentUser, this.props.history);
+    this.props.loginUser(currentUser);
 
     
 }
 
 componentWillReceiveProps(nextProps) {
-  if(nextProps.errors){
+  if (nextProps.auth.isAuthenticated){
     this.props.history.push('/dashboard');
+  }
+  if (nextProps.errors){
+    this.setState({errors: nextProps.errors});
   }
 }
   render() {
@@ -51,8 +54,8 @@ componentWillReceiveProps(nextProps) {
           <p className="lead text-center">Sign in to your DevConnector account</p>
           <form action="dashboard.html">
             <div className="form-group">
-              <input type="email" className={classnames('form-control form-control-lg',{'is-invalid':errors.name})} 
-                  placeholder="Emailaddress" name="email" 
+              <input type="email" className={classnames('form-control form-control-lg',{'is-invalid':errors.email})} 
+                  placeholder="Email Address" name="email" 
                   value={this.state.email}
                   onChange={this.onChange} />
               {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
@@ -62,7 +65,7 @@ componentWillReceiveProps(nextProps) {
                    placeholder="Password" name="password"
                   value={this.state.password}
                   onChange={this.onChange} />
-              {errors.name && (<div className="invalid-feedback">{errors.password}</div>)}
+              {errors.password && (<div className="invalid-feedback">{errors.password}</div>)}
             </div>
             <input type="submit" className="btn btn-info btn-block mt-4" />
           </form>
@@ -86,3 +89,4 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps ,{loginUser}) (Login);
+
