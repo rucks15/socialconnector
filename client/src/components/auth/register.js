@@ -37,6 +37,7 @@ class Register extends Component {
 
   }
 
+  //This below function is built-in lifecycle of component
   componentWillReceiveProps(nextProps){
     if (nextProps.errors){
       this.setState({errors: nextProps.errors});
@@ -44,6 +45,8 @@ class Register extends Component {
   }
 
   render() {
+    //Instead of writing this.state.errors on RHS, 
+    //we put curly braces on LHS - "Deconstruction"
     const {errors} = this.state;
 
 

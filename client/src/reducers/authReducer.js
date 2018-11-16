@@ -8,7 +8,7 @@ const initialState = {
 }
 
 
-
+//Below is an anonymous function - no function name given
 export default function(state = initialState, action){
     switch(action.type){
         case SET_CURRENT_USER:

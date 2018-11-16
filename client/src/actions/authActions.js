@@ -3,7 +3,8 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode'; 
 
-//Register User 
+//Register User
+//history is an array to have info about navigation 
 export const registeruser = (userData, history) => dispatch => {
     axios
         .post('/api/users/register', userData)
@@ -23,13 +24,13 @@ export const loginUser = (userData) => dispatch => {
                 //save to local storage
                 const {token} = res.data;
                 //set token to local storage (stored as key value pair)
-                localStorage.setItem('jwtToken', token)
+                localStorage.setItem('jwtToken', token);
                 //set token to auth header
                 setAuthToken(token);
                 //Decode token to get user data
                 const decoded = jwt_decode(token);
                 //set current user
-                dispatch(setCurrentUser(decoded))
+                dispatch(setCurrentUser(decoded));
             })
             .catch(err => 
                 dispatch({
@@ -38,6 +39,15 @@ export const loginUser = (userData) => dispatch => {
                 })
             );
     }
+
+export const logOutUser = () => dispatch => {
+    //Remove token from local storage
+    localStorage.removeItem('jwtToken');
+    //Remove auth header
+    setAuthToken(false);
+    //set current user in redux store to be null
+    dispatch(setCurrentUser({}));
+}
 export const setCurrentUser = decoded => {
     return {
         type : SET_CURRENT_USER,
