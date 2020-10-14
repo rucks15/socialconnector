@@ -19,8 +19,6 @@ if(!Validator.isLength(data.password, {min:6, max: 30})){
 if(Validator.isEmpty(data.password)){
     errors.password = 'Password field is required';
 }
-
-
 return {
     errors,
     isValid: isEmpty(errors)
